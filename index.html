@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Alertar">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -48,6 +49,10 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
 .topbar-user { font-size:12px; color:rgba(255,255,255,.65); font-family:'DM Mono',monospace; margin-top:1px; }
 .topbar-btn { background:rgba(255,255,255,.15); border:none; border-radius:8px; color:#fff; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s; }
 .topbar-btn:active { background:rgba(255,255,255,.25); }
+.topbar-right { display:flex; gap:8px; align-items:center; }
+#btn-install { display:none; background:rgba(255,255,255,.92); border:none; border-radius:8px; color:var(--red); padding:0 12px; height:36px; font-family:"DM Sans",sans-serif; font-size:13px; font-weight:600; cursor:pointer; align-items:center; gap:5px; white-space:nowrap; transition:background .2s; }
+#btn-install.show { display:flex; }
+#btn-install:active { background:#fff; }
 
 /* ── TABS ── */
 .tabs { display:flex; border-bottom:1px solid var(--border2); background:var(--card); flex-shrink:0; }
@@ -152,11 +157,17 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
       <div class="topbar-casa" id="topbar-casa">Alertar</div>
       <div class="topbar-user" id="topbar-user">—</div>
     </div>
-    <button class="topbar-btn" onclick="toggleDark()" id="dark-btn" aria-label="Modo oscuro">
-      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" id="dark-icon">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
-    </button>
+    <div class="topbar-right">
+      <button id="btn-install" onclick="doInstall()" aria-label="Instalar app">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2v13M7 11l5 5 5-5"/><path d="M3 18v1a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1"/></svg>
+        Instalar
+      </button>
+      <button class="topbar-btn" onclick="toggleDark()" id="dark-btn" aria-label="Modo oscuro">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" id="dark-icon">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <!-- OFFLINE BANNER -->
@@ -251,12 +262,13 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
 
 <script>
 // ══════════════════════════════════════════════════════════════
-//  ALERTAR v2.0 — Frontend
+//  ALERTAR v2.1 — Frontend
 // ══════════════════════════════════════════════════════════════
 
 // ── CONFIG — reemplazá con tu GAS deployment URL ──────────────
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbyY4XpSV2UAqzIZBl9_DzPre5HhMv7zfGS0HkWTSq145rb4GdL4U7KN-grO1cjnILrL/exec';
 const POLL_MS = 4000;
+
 
 // ── STATE ─────────────────────────────────────────────────────
 let currentUser  = localStorage.getItem('alertar_user')  || null;
@@ -577,6 +589,36 @@ function renderHistory(history) {
       <div class="hist-row" style="margin-top:6px"><span class="hist-detail">${detail}</span>${badge}</div>
     </div>`;
   }).join('');
+}
+
+// ── PWA INSTALL ───────────────────────────────────────────────
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('btn-install').classList.add('show');
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  document.getElementById('btn-install').classList.remove('show');
+  showToast('✅ Alertar instalada correctamente');
+});
+
+async function doInstall() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    deferredPrompt = null;
+    document.getElementById('btn-install').classList.remove('show');
+  }
+}
+
+// Registrar Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(e => console.warn('SW:', e));
 }
 
 // ── ENTER KEY ─────────────────────────────────────────────────

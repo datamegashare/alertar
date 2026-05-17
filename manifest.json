@@ -1,0 +1,24 @@
+{
+  "name": "Alertar — Casa Cuarta",
+  "short_name": "Alertar",
+  "description": "Timbre digital familiar",
+  "start_url": "./alertar_v2.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#D63031",
+  "theme_color": "#D63031",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
