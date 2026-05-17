@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alertar — Casa Cuarta</title>
+<title>Alertar</title>
 <meta name="theme-color" content="#D63031">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,401 +14,199 @@
 <style>
 /* ── VARIABLES ─────────────────────────────────────────── */
 :root {
-  --red:       #D63031;
-  --red-dark:  #A52929;
-  --red-dim:   rgba(214,48,49,0.12);
-  --red-ring:  rgba(214,48,49,0.25);
-  --bg:        #F5F4F0;
-  --card:      #FFFFFF;
-  --text:      #1A1A1A;
-  --text2:     #6B6969;
-  --text3:     #A8A6A6;
-  --border:    rgba(0,0,0,0.08);
-  --border2:   rgba(0,0,0,0.14);
-  --shadow:    0 2px 16px rgba(0,0,0,0.08);
-  --tab-h:     60px;
-  --top-h:     64px;
+  --red:      #D63031;
+  --red-dark: #A52929;
+  --red-dim:  rgba(214,48,49,0.12);
+  --red-ring: rgba(214,48,49,0.25);
+  --bg:       #F5F4F0;
+  --card:     #FFFFFF;
+  --text:     #1A1A1A;
+  --text2:    #6B6969;
+  --text3:    #A8A6A6;
+  --border:   rgba(0,0,0,0.08);
+  --border2:  rgba(0,0,0,0.14);
 }
 [data-dark] {
-  --bg:        #141414;
-  --card:      #1E1E1E;
-  --text:      #EFEFEF;
-  --text2:     #888;
-  --text3:     #555;
-  --border:    rgba(255,255,255,0.07);
-  --border2:   rgba(255,255,255,0.13);
-  --shadow:    0 2px 20px rgba(0,0,0,0.4);
-  --red-dim:   rgba(214,48,49,0.18);
-  --red-ring:  rgba(214,48,49,0.30);
+  --bg:       #141414;
+  --card:     #1E1E1E;
+  --text:     #EFEFEF;
+  --text2:    #888;
+  --text3:    #555;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.13);
+  --red-dim:  rgba(214,48,49,0.18);
+  --red-ring: rgba(214,48,49,0.30);
 }
-
-/* ── RESET ─────────────────────────────────────────────── */
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 html,body { height:100%; overflow:hidden; }
-body {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.3s, color 0.3s;
-}
-
-/* ── APP SHELL ─────────────────────────────────────────── */
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--text); transition:background .3s,color .3s; }
 #app { display:flex; flex-direction:column; height:100dvh; max-width:480px; margin:0 auto; position:relative; }
 
-/* ── TOPBAR ────────────────────────────────────────────── */
-.topbar {
-  height: var(--top-h);
-  background: var(--red);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-.topbar-left { display:flex; flex-direction:column; }
-.topbar-casa {
-  font-size: 17px;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: 0.3px;
-}
-.topbar-user {
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  font-family: 'DM Mono', monospace;
-  margin-top: 1px;
-}
-.topbar-btn {
-  background: rgba(255,255,255,0.15);
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background 0.2s;
-}
-.topbar-btn:active { background: rgba(255,255,255,0.25); }
+/* ── TOPBAR ── */
+.topbar { height:64px; background:var(--red); display:flex; align-items:center; justify-content:space-between; padding:0 20px; flex-shrink:0; }
+.topbar-casa { font-size:17px; font-weight:600; color:#fff; }
+.topbar-user { font-size:12px; color:rgba(255,255,255,.65); font-family:'DM Mono',monospace; margin-top:1px; }
+.topbar-btn { background:rgba(255,255,255,.15); border:none; border-radius:8px; color:#fff; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s; }
+.topbar-btn:active { background:rgba(255,255,255,.25); }
 
-/* ── TABS ──────────────────────────────────────────────── */
-.tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border2);
-  background: var(--card);
-  flex-shrink: 0;
-}
-.tab {
-  flex: 1;
-  height: 44px;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text2);
-  border: none;
-  background: none;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-}
-.tab.active { color: var(--red); border-bottom-color: var(--red); }
-.tab svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+/* ── TABS ── */
+.tabs { display:flex; border-bottom:1px solid var(--border2); background:var(--card); flex-shrink:0; }
+.tab { flex:1; height:44px; display:flex; align-items:center; justify-content:center; gap:6px; font-size:13px; font-weight:500; color:var(--text2); border:none; background:none; cursor:pointer; border-bottom:2px solid transparent; transition:color .2s,border-color .2s; }
+.tab.active { color:var(--red); border-bottom-color:var(--red); }
+.tab svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 
-/* ── SCREENS ───────────────────────────────────────────── */
-.screen {
-  display: none;
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.screen.active { display: flex; flex-direction: column; }
+/* ── SCREENS ── */
+.screen { display:none; flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.screen.active { display:flex; flex-direction:column; }
 
-/* ── LOGIN SCREEN ──────────────────────────────────────── */
-#screen-login {
-  align-items: center;
-  justify-content: center;
-  padding: 32px 28px;
-}
-.login-logo {
-  width: 80px; height: 80px;
-  background: var(--red);
-  border-radius: 24px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 20px;
-}
+/* ── SPLASH ── */
+#screen-splash { align-items:center; justify-content:center; gap:12px; }
+.splash-logo { width:72px; height:72px; background:var(--red); border-radius:20px; display:flex; align-items:center; justify-content:center; }
+.splash-logo svg { width:38px; height:38px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.splash-text { font-size:15px; color:var(--text2); }
+
+/* ── LOGIN ── */
+#screen-login { align-items:center; justify-content:center; padding:32px 28px; }
+.login-logo { width:80px; height:80px; background:var(--red); border-radius:24px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
 .login-logo svg { width:40px; height:40px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-.login-title { font-size: 28px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.login-sub { font-size: 14px; color: var(--text2); margin-bottom: 8px; }
-.login-version { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); margin-bottom: 36px; }
-.login-form { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-.field-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
-.field-select, .field-input {
-  width: 100%;
-  padding: 14px 16px;
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-radius: 12px;
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s;
-  appearance: none;
-}
-.field-select:focus, .field-input:focus { border-color: var(--red); }
-.field-select option { background: var(--card); color: var(--text); }
-.btn-primary {
-  width: 100%;
-  padding: 16px;
-  background: var(--red);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  margin-top: 4px;
-  letter-spacing: 0.3px;
-}
-.btn-primary:active { background: var(--red-dark); transform: scale(0.98); }
-.login-error {
-  font-size: 13px;
-  color: var(--red);
-  text-align: center;
-  min-height: 18px;
-  font-weight: 500;
-}
+.login-title { font-size:28px; font-weight:600; color:var(--text); margin-bottom:4px; }
+.login-sub { font-size:14px; color:var(--text2); margin-bottom:4px; }
+.login-ver { font-family:'DM Mono',monospace; font-size:11px; color:var(--text3); margin-bottom:36px; }
+.login-form { width:100%; display:flex; flex-direction:column; gap:12px; }
+.field-label { font-size:12px; font-weight:500; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.6px; }
+.field-select,.field-input { width:100%; padding:14px 16px; background:var(--card); border:1px solid var(--border2); border-radius:12px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:15px; outline:none; appearance:none; transition:border-color .2s; }
+.field-select:focus,.field-input:focus { border-color:var(--red); }
+.btn-primary { width:100%; padding:16px; background:var(--red); color:#fff; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:16px; font-weight:600; cursor:pointer; transition:background .2s,transform .1s; margin-top:4px; }
+.btn-primary:active { background:var(--red-dark); transform:scale(.98); }
+.field-error { font-size:13px; color:var(--red); text-align:center; min-height:18px; font-weight:500; }
 
-/* ── MAIN SCREEN ───────────────────────────────────────── */
-#screen-main {
-  align-items: center;
-  padding: 0 24px 32px;
-}
-.status-bar {
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 28px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.status-dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--text3);
-  flex-shrink: 0;
-  transition: background 0.3s;
-}
-.status-dot.active { background: var(--red); animation: blink 1s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.status-text { font-size: 14px; color: var(--text2); }
-.status-who { font-weight: 600; color: var(--text); }
-
-/* ── CALL BUTTON ───────────────────────────────────────── */
+/* ── MAIN ── */
+#screen-main { align-items:center; padding:0 24px 32px; }
+.status-bar { width:100%; margin-top:20px; margin-bottom:28px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:10px; }
+.status-dot { width:10px; height:10px; border-radius:50%; background:var(--text3); flex-shrink:0; transition:background .3s; }
+.status-dot.active { background:var(--red); animation:blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.status-text { font-size:14px; color:var(--text2); }
+.status-who { font-weight:600; color:var(--text); }
 .btn-area { display:flex; flex-direction:column; align-items:center; flex:1; justify-content:center; }
-.ring-wrap {
-  position: relative;
-  width: 220px; height: 220px;
-  display: flex; align-items:center; justify-content:center;
-  margin-bottom: 32px;
-}
-.ring-pulse {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--red-ring);
-  opacity: 0;
-}
-.ring-pulse.go { animation: rings 1.6s ease-out infinite; }
-@keyframes rings {
-  0%   { transform:scale(0.85); opacity:0.7; }
-  100% { transform:scale(1.35); opacity:0; }
-}
-.ring-2 { animation-delay: 0.5s !important; }
-.call-btn {
-  width: 180px; height: 180px;
-  border-radius: 50%;
-  background: var(--red);
-  border: none;
-  cursor: pointer;
-  display: flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
-  transition: background 0.25s, transform 0.15s;
-  position: relative; z-index: 2;
-  box-shadow: 0 4px 24px rgba(214,48,49,0.35);
-}
-.call-btn:active { transform: scale(0.94); }
-.call-btn.ringing { background: var(--red-dark); box-shadow: 0 4px 32px rgba(214,48,49,0.5); }
+.ring-wrap { position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center; margin-bottom:32px; }
+.ring-pulse { position:absolute; inset:0; border-radius:50%; background:var(--red-ring); opacity:0; }
+.ring-pulse.go { animation:rings 1.6s ease-out infinite; }
+.ring-2 { animation-delay:.5s !important; }
+@keyframes rings { 0%{transform:scale(.85);opacity:.7} 100%{transform:scale(1.35);opacity:0} }
+.call-btn { width:180px; height:180px; border-radius:50%; background:var(--red); border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; transition:background .25s,transform .15s; position:relative; z-index:2; box-shadow:0 4px 24px rgba(214,48,49,.35); }
+.call-btn:active { transform:scale(.94); }
+.call-btn.ringing { background:var(--red-dark); box-shadow:0 4px 32px rgba(214,48,49,.5); }
+.call-btn.disabled { opacity:.5; cursor:not-allowed; }
 .call-btn svg { width:52px; height:52px; fill:none; stroke:#fff; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
-.call-btn-lbl { font-size: 12px; font-weight: 600; color:rgba(255,255,255,0.85); letter-spacing:1.5px; text-transform:uppercase; }
-.countdown {
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  color: var(--text3);
-  margin-bottom: 16px;
-  min-height: 20px;
-  transition: color 0.3s;
-}
-.countdown.active { color: var(--red); }
-.btn-cancel {
-  width: 100%;
-  padding: 15px;
-  background: transparent;
-  border: 1.5px solid var(--red);
-  color: var(--red);
-  border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  display: none;
-}
-.btn-cancel.show { display: block; }
-.btn-cancel:active { background: var(--red-dim); transform:scale(0.98); }
+.call-btn-lbl { font-size:12px; font-weight:600; color:rgba(255,255,255,.85); letter-spacing:1.5px; text-transform:uppercase; }
+.countdown { font-family:'DM Mono',monospace; font-size:13px; color:var(--text3); margin-bottom:16px; min-height:20px; transition:color .3s; }
+.countdown.active { color:var(--red); }
+.btn-cancel { width:100%; padding:15px; background:transparent; border:1.5px solid var(--red); color:var(--red); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; cursor:pointer; transition:background .2s,transform .1s; display:none; }
+.btn-cancel.show { display:block; }
+.btn-cancel:active { background:var(--red-dim); transform:scale(.98); }
 
-/* ── HISTORIAL SCREEN ──────────────────────────────────── */
-#screen-hist { padding: 16px 20px 24px; }
-.hist-header { font-size: 12px; font-weight: 600; text-transform:uppercase; letter-spacing:0.8px; color:var(--text3); margin-bottom:12px; }
+/* ── HISTORIAL ── */
+#screen-hist { padding:16px 20px 24px; }
+.hist-header { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.8px; color:var(--text3); margin-bottom:12px; }
 .hist-empty { text-align:center; color:var(--text3); font-size:14px; margin-top:40px; }
-.hist-item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 13px 16px;
-  margin-bottom: 8px;
-}
+.hist-item { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:13px 16px; margin-bottom:8px; }
 .hist-row { display:flex; align-items:center; justify-content:space-between; }
-.hist-who { font-size: 15px; font-weight: 600; color: var(--text); }
+.hist-who { font-size:15px; font-weight:600; color:var(--text); }
 .hist-time { font-family:'DM Mono',monospace; font-size:12px; color:var(--text3); }
 .hist-detail { font-size:12px; color:var(--text2); margin-top:4px; }
-.badge {
-  display:inline-block;
-  font-size:11px; font-weight:600;
-  padding: 3px 9px;
-  border-radius: 20px;
-  letter-spacing:0.3px;
-}
+.badge { display:inline-block; font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; }
 .badge-ok   { background:#E6F4EA; color:#1E7E34; }
 .badge-auto { background:var(--border); color:var(--text2); }
 [data-dark] .badge-ok   { background:#0d2e14; color:#5acc7a; }
-[data-dark] .badge-auto { background:rgba(255,255,255,0.07); color:var(--text2); }
+[data-dark] .badge-auto { background:rgba(255,255,255,.07); color:var(--text2); }
 
-/* ── INCOMING OVERLAY ──────────────────────────────────── */
-#incoming {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
-}
+/* ── INCOMING OVERLAY ── */
+#incoming { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:100; align-items:center; justify-content:center; padding:32px; }
 #incoming.show { display:flex; }
-.incoming-card {
-  background: var(--card);
-  border-radius: 20px;
-  padding: 36px 28px;
-  width: 100%;
-  max-width: 360px;
-  text-align: center;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
-}
-.incoming-icon {
-  width: 72px; height: 72px;
-  background: var(--red-dim);
-  border: 2px solid var(--red);
-  border-radius: 50%;
-  display: flex; align-items:center; justify-content:center;
-  margin: 0 auto 20px;
-  animation: shake 0.5s infinite;
-}
-@keyframes shake {
-  0%,100%{transform:rotate(0)} 25%{transform:rotate(-8deg)} 75%{transform:rotate(8deg)}
-}
+.incoming-card { background:var(--card); border-radius:20px; padding:36px 28px; width:100%; max-width:360px; text-align:center; box-shadow:0 8px 40px rgba(0,0,0,.4); }
+.incoming-icon { width:72px; height:72px; background:var(--red-dim); border:2px solid var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; animation:shake .5s infinite; }
+@keyframes shake { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-8deg)} 75%{transform:rotate(8deg)} }
 .incoming-icon svg { width:36px; height:36px; fill:none; stroke:var(--red); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-.incoming-title { font-size: 13px; text-transform:uppercase; letter-spacing:1px; color:var(--text2); margin-bottom:6px; }
-.incoming-who { font-size: 26px; font-weight:600; color:var(--text); margin-bottom:24px; }
-.incoming-cancel {
-  width: 100%;
-  padding: 15px;
-  background: var(--red);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-family:'DM Sans',sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.incoming-cancel:active { background: var(--red-dark); }
+.incoming-title { font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--text2); margin-bottom:6px; }
+.incoming-who { font-size:26px; font-weight:600; color:var(--text); margin-bottom:24px; }
+.incoming-cancel { width:100%; padding:15px; background:var(--red); color:#fff; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:16px; font-weight:600; cursor:pointer; }
+.incoming-cancel:active { background:var(--red-dark); }
+
+/* ── TOAST ── */
+#toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:#1a1a1a; color:#fff; padding:10px 20px; border-radius:20px; font-size:13px; font-weight:500; opacity:0; transition:all .3s; z-index:200; white-space:nowrap; }
+#toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+[data-dark] #toast { background:#f0f0f0; color:#1a1a1a; }
+
+/* ── OFFLINE BANNER ── */
+#offline-banner { display:none; background:#333; color:#fff; text-align:center; font-size:12px; padding:6px; }
+#offline-banner.show { display:block; }
 </style>
 </head>
 <body>
-
 <div id="app">
 
-  <!-- ── TOPBAR ── -->
+  <!-- TOPBAR -->
   <div class="topbar">
-    <div class="topbar-left">
-      <span class="topbar-casa">🏠 Casa Cuarta</span>
-      <span class="topbar-user" id="topbar-user">—</span>
+    <div>
+      <div class="topbar-casa" id="topbar-casa">Alertar</div>
+      <div class="topbar-user" id="topbar-user">—</div>
     </div>
     <button class="topbar-btn" onclick="toggleDark()" id="dark-btn" aria-label="Modo oscuro">
-      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" id="dark-icon">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
       </svg>
     </button>
   </div>
 
-  <!-- ── TABS ── -->
+  <!-- OFFLINE BANNER -->
+  <div id="offline-banner">⚠️ Sin conexión — reintentando...</div>
+
+  <!-- TABS -->
   <div class="tabs" id="tabs" style="display:none">
-    <button class="tab active" onclick="showTab('main',this)" aria-label="Llamar">
+    <button class="tab active" onclick="showTab('main',this)">
       <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       Llamar
     </button>
-    <button class="tab" onclick="showTab('hist',this)" aria-label="Historial">
+    <button class="tab" onclick="showTab('hist',this)">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       Historial
     </button>
   </div>
 
-  <!-- ══ LOGIN ══ -->
-  <div class="screen active" id="screen-login">
+  <!-- SPLASH -->
+  <div class="screen active" id="screen-splash">
+    <div class="splash-logo">
+      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </div>
+    <div class="splash-text">Cargando...</div>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="screen" id="screen-login">
     <div class="login-logo">
       <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
     </div>
     <div class="login-title">Alertar</div>
-    <div class="login-sub">Casa Cuarta</div>
-    <div class="login-version">v1.0</div>
+    <div class="login-sub" id="login-casa">Casa Cuarta</div>
+    <div class="login-ver">v2.0</div>
     <div class="login-form">
       <div>
         <div class="field-label">¿Quién sos?</div>
         <select class="field-select" id="sel-user">
           <option value="">Seleccioná tu nombre...</option>
-          <option value="Pato">Pato</option>
-          <option value="Mily">Mily</option>
-          <option value="Ale">Ale</option>
         </select>
       </div>
       <div>
         <div class="field-label">Contraseña</div>
         <input class="field-input" type="password" id="inp-pass" placeholder="••••••••" maxlength="20" autocomplete="current-password">
       </div>
-      <div class="login-error" id="login-error"></div>
+      <div class="field-error" id="login-error"></div>
       <button class="btn-primary" onclick="doLogin()">Entrar</button>
     </div>
   </div>
 
-  <!-- ══ MAIN ══ -->
+  <!-- MAIN -->
   <div class="screen" id="screen-main">
     <div class="status-bar">
       <div class="status-dot" id="status-dot"></div>
@@ -418,11 +216,8 @@ body {
       <div class="ring-wrap">
         <div class="ring-pulse" id="ring1"></div>
         <div class="ring-pulse ring-2" id="ring2"></div>
-        <button class="call-btn" id="call-btn" onclick="toggleCall()" aria-label="Llamar">
-          <svg id="bell-svg" viewBox="0 0 24 24">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
+        <button class="call-btn" id="call-btn" onclick="toggleCall()">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           <span class="call-btn-lbl" id="btn-lbl">Llamar</span>
         </button>
       </div>
@@ -431,15 +226,15 @@ body {
     </div>
   </div>
 
-  <!-- ══ HISTORIAL ══ -->
+  <!-- HISTORIAL -->
   <div class="screen" id="screen-hist">
     <div class="hist-header">Últimas llamadas</div>
-    <div id="hist-list"></div>
+    <div id="hist-list"><div class="hist-empty">Cargando...</div></div>
   </div>
 
-</div>
+</div><!-- /app -->
 
-<!-- ══ INCOMING OVERLAY ══ -->
+<!-- INCOMING OVERLAY -->
 <div id="incoming">
   <div class="incoming-card">
     <div class="incoming-icon">
@@ -451,82 +246,70 @@ body {
   </div>
 </div>
 
+<!-- TOAST -->
+<div id="toast"></div>
+
 <script>
-// ── CONFIG ─────────────────────────────────────────────────
-const CONFIG = {
-  VERSION: 'v1.0',
-  CASA: 'Casa Cuarta',
-  ALARM_DURATION: 60,
-  POLL_INTERVAL: 4000,
-};
+// ══════════════════════════════════════════════════════════════
+//  ALERTAR v2.0 — Frontend
+// ══════════════════════════════════════════════════════════════
 
-const USERS = {
-  'Pato': 'a8b1c5607ebbb884aea455d8c0d80665e1687577a5035a73e039508987d96f17',
-  'Mily': '1dd3e7a2a3b4ede1b03c472d0001d3fa23ddbfcf2e5ffe7bc885f5a83451c9ab',
-  'Ale':  '4d5a1201a7e12fc0a6fb3a524cfffe39fd58a47e093c005e181a7d8d15c5c651',
-};
+// ── CONFIG — reemplazá con tu GAS deployment URL ──────────────
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyY4XpSV2UAqzIZBl9_DzPre5HhMv7zfGS0HkWTSq145rb4GdL4U7KN-grO1cjnILrL/exec';
+const POLL_MS = 4000;
 
-// ── STATE ──────────────────────────────────────────────────
-let currentUser = localStorage.getItem('alertar_user') || null;
+// ── STATE ─────────────────────────────────────────────────────
+let currentUser  = localStorage.getItem('alertar_user')  || null;
 let darkMode     = localStorage.getItem('alertar_dark') === '1';
+let alarmDurSec  = 60;
+let usersMap     = {};        // { nombre: hash }
+let ringing      = false;
+let myCall       = false;     // fui yo quien llamó
+let countdownInt = null;
+let secsLeft     = 0;
+let pollInt      = null;
+let lastAlarmWho = null;
+let soundLoop    = null;
+let soundActive  = false;
+let audioCtx     = null;
 
-// Alarma simulada en localStorage (en la versión real vendría del Sheet)
-// { active, who, startTs, cancelledBy, endTs }
-function getAlarm()    { try { return JSON.parse(localStorage.getItem('alertar_alarm') || 'null'); } catch(e){return null;} }
-function setAlarm(obj) { localStorage.setItem('alertar_alarm', JSON.stringify(obj)); }
-function clearAlarm()  { localStorage.removeItem('alertar_alarm'); }
-
-let history = JSON.parse(localStorage.getItem('alertar_history') || '[]');
-function saveHistory() { localStorage.setItem('alertar_history', JSON.stringify(history)); }
-
-// ── AUDIO ──────────────────────────────────────────────────
-let audioCtx = null;
-let soundLoop = null;
-let soundActive = false;
-
+// ── AUDIO — timbre tipo puerta ─────────────────────────────────
 function getCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
-
-// Timbre tipo puerta: ding-dong doble (Si5 → Sol#4)
+function tone(ctx, freq, startT, dur, gain) {
+  const osc = ctx.createOscillator();
+  const env = ctx.createGain();
+  osc.connect(env); env.connect(ctx.destination);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, startT);
+  env.gain.setValueAtTime(0, startT);
+  env.gain.linearRampToValueAtTime(gain, startT + 0.02);
+  env.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+  osc.start(startT); osc.stop(startT + dur + 0.05);
+}
 function playDingDong() {
   const ctx = getCtx();
   if (ctx.state === 'suspended') ctx.resume();
-
-  function tone(freq, startT, duration, gain) {
-    const osc = ctx.createOscillator();
-    const env = ctx.createGain();
-    osc.connect(env); env.connect(ctx.destination);
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, startT);
-    env.gain.setValueAtTime(0, startT);
-    env.gain.linearRampToValueAtTime(gain, startT + 0.02);
-    env.gain.exponentialRampToValueAtTime(0.001, startT + duration);
-    osc.start(startT);
-    osc.stop(startT + duration + 0.05);
-  }
-
   const t = ctx.currentTime;
-  tone(987.77, t,        1.2, 0.45);  // Si5 — ding
-  tone(830.61, t + 1.3,  1.4, 0.40);  // Sol#5 — dong
+  tone(ctx, 987.77, t,       1.2, 0.45);
+  tone(ctx, 830.61, t + 1.3, 1.4, 0.40);
 }
-
 function startSound() {
   soundActive = true;
   playDingDong();
   soundLoop = setInterval(() => { if (soundActive) playDingDong(); }, 3200);
 }
-
 function stopSound() {
   soundActive = false;
   if (soundLoop) { clearInterval(soundLoop); soundLoop = null; }
 }
 
-// ── DARK MODE ─────────────────────────────────────────────
+// ── DARK MODE ──────────────────────────────────────────────────
 function applyDark() {
-  document.documentElement[darkMode ? 'setAttribute' : 'removeAttribute']('data-dark','');
-  document.getElementById('dark-btn').querySelector('svg').innerHTML = darkMode
+  document.documentElement[darkMode ? 'setAttribute' : 'removeAttribute']('data-dark', '');
+  document.getElementById('dark-icon').innerHTML = darkMode
     ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
     : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
 }
@@ -536,37 +319,38 @@ function toggleDark() {
   applyDark();
 }
 
-// ── SHA-256 ────────────────────────────────────────────────
+// ── SHA-256 ────────────────────────────────────────────────────
 async function sha256(msg) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-// ── LOGIN ──────────────────────────────────────────────────
-async function doLogin() {
-  const name = document.getElementById('sel-user').value;
-  const pass = document.getElementById('inp-pass').value;
-  const err  = document.getElementById('login-error');
-  if (!name) { err.textContent = 'Seleccioná tu nombre'; return; }
-  if (!pass)  { err.textContent = 'Ingresá tu contraseña'; return; }
-  err.textContent = '';
-  const hash = await sha256(pass);
-  if (USERS[name] !== hash) { err.textContent = 'Contraseña incorrecta'; return; }
-  currentUser = name;
-  localStorage.setItem('alertar_user', name);
-  showLoggedIn();
+// ── GAS API ────────────────────────────────────────────────────
+async function gasGet() {
+  const r = await fetch(GAS_URL + '?action=getStatus', { redirect: 'follow' });
+  return r.json();
+}
+async function gasPost(body) {
+  const r = await fetch(GAS_URL, {
+    method:  'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body:    JSON.stringify(body),
+    redirect: 'follow',
+  });
+  return r.json();
 }
 
-function showLoggedIn() {
-  document.getElementById('screen-login').classList.remove('active');
-  document.getElementById('tabs').style.display = 'flex';
-  document.getElementById('topbar-user').textContent = currentUser;
-  showTab('main', document.querySelector('.tab'));
-  renderHistory();
-  startPolling();
+// ── TOAST ──────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── TABS ───────────────────────────────────────────────────
+// ── TABS ───────────────────────────────────────────────────────
 function showTab(id, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
@@ -574,140 +358,220 @@ function showTab(id, el) {
   document.getElementById('screen-' + id).classList.add('active');
 }
 
-// ── ALARM STATE ────────────────────────────────────────────
-let ringing = false;
-let countdownTimer = null;
-let secsLeft = 0;
+// ── INIT ───────────────────────────────────────────────────────
+async function init() {
+  applyDark();
+  showScreen('splash');
 
-function toggleCall() {
-  if (ringing) cancelCall(); else startCall();
-}
+  try {
+    const data = await gasGet();
+    if (!data.ok) throw new Error(data.error);
 
-function startCall() {
-  const alarm = { active: true, who: currentUser, startTs: Date.now(), cancelledBy: null, endTs: null };
-  setAlarm(alarm);
-  applyRinging(alarm);
-  startSound();
-}
+    alarmDurSec = data.alarmDuration || 60;
 
-function applyRinging(alarm) {
-  ringing = true;
-  document.getElementById('call-btn').classList.add('ringing');
-  document.getElementById('ring1').classList.add('go');
-  document.getElementById('ring2').classList.add('go');
-  document.getElementById('btn-lbl').textContent = 'Llamando...';
-  document.getElementById('btn-cancel').classList.add('show');
-  document.getElementById('status-dot').classList.add('active');
-  document.getElementById('status-text').innerHTML = 'Llamando — <span class="status-who">' + alarm.who + '</span>';
-  document.getElementById('incoming-who').textContent = alarm.who;
+    // Config visual
+    document.getElementById('topbar-casa').textContent = '🏠 ' + data.casaNombre;
+    document.getElementById('login-casa').textContent  = data.casaNombre;
 
-  // Si no soy quien llamó, muestro overlay
-  if (alarm.who !== currentUser) {
-    document.getElementById('incoming').classList.add('show');
+    // Poblar selector de usuarios
+    const sel = document.getElementById('sel-user');
+    sel.innerHTML = '<option value="">Seleccioná tu nombre...</option>';
+    data.users.forEach(u => {
+      const opt = document.createElement('option');
+      opt.value = u; opt.textContent = u;
+      sel.appendChild(opt);
+    });
+
+    // Cargar hashes desde el Sheet
+    // Los hashes vienen en getStatus como parte de users array (solo nombres)
+    // Para verificar en cliente necesitamos los hashes — los pedimos aparte
+    // o usamos los hardcodeados como fallback.
+    // DECISIÓN: los hashes quedan hardcodeados en el HTML (rendimiento + seguridad OK para uso familiar)
+    usersMap = {
+      'Pato': 'a8b1c5607ebbb884aea455d8c0d80665e1687577a5035a73e039508987d96f17',
+      'Mily': '1dd3e7a2a3b4ede1b03c472d0001d3fa23ddbfcf2e5ffe7bc885f5a83451c9ab',
+      'Ale':  '4d5a1201a7e12fc0a6fb3a524cfffe39fd58a47e093c005e181a7d8d15c5c651',
+    };
+
+    // Renderizar historial inicial
+    renderHistory(data.history);
+
+    // Auto-login si ya hay sesión guardada
+    if (currentUser && usersMap[currentUser]) {
+      enterApp(data);
+    } else {
+      showScreen('login');
+    }
+
+  } catch (e) {
+    console.error('init error', e);
+    // Si falla, intentamos con caché
+    if (currentUser) {
+      showScreen('login');
+      showToast('Sin conexión — modo offline');
+    } else {
+      showScreen('login');
+    }
   }
+}
 
-  // Countdown
-  secsLeft = CONFIG.ALARM_DURATION - Math.floor((Date.now() - alarm.startTs) / 1000);
-  secsLeft = Math.max(0, secsLeft);
+// ── LOGIN ──────────────────────────────────────────────────────
+async function doLogin() {
+  const name = document.getElementById('sel-user').value;
+  const pass = document.getElementById('inp-pass').value;
+  const err  = document.getElementById('login-error');
+  if (!name) { err.textContent = 'Seleccioná tu nombre'; return; }
+  if (!pass)  { err.textContent = 'Ingresá tu contraseña'; return; }
+  err.textContent = 'Verificando...';
+  const hash = await sha256(pass);
+  if (usersMap[name] !== hash) { err.textContent = 'Contraseña incorrecta'; return; }
+  err.textContent = '';
+  currentUser = name;
+  localStorage.setItem('alertar_user', name);
+  try {
+    const data = await gasGet();
+    enterApp(data);
+  } catch(e) {
+    enterApp({ alarm: { active: false }, history: [] });
+  }
+}
+
+function enterApp(data) {
+  document.getElementById('topbar-user').textContent = currentUser;
+  document.getElementById('tabs').style.display = 'flex';
+  showScreen('main');
+  applyAlarmState(data.alarm);
+  startPolling();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+// ── POLLING ────────────────────────────────────────────────────
+function startPolling() {
+  if (pollInt) clearInterval(pollInt);
+  pollInt = setInterval(poll, POLL_MS);
+}
+async function poll() {
+  try {
+    const data = await gasGet();
+    document.getElementById('offline-banner').classList.remove('show');
+    applyAlarmState(data.alarm);
+    renderHistory(data.history);
+  } catch(e) {
+    document.getElementById('offline-banner').classList.add('show');
+  }
+}
+
+// ── ALARM STATE ────────────────────────────────────────────────
+function applyAlarmState(alarm) {
+  if (!alarm) return;
+
+  if (alarm.active && !ringing) {
+    // Nueva alarma detectada
+    ringing      = true;
+    myCall       = alarm.who === currentUser;
+    lastAlarmWho = alarm.who;
+    secsLeft     = alarmDurSec - Math.floor((Date.now() - alarm.tsStart) / 1000);
+    secsLeft     = Math.max(0, secsLeft);
+    setRingingUI(true, alarm.who);
+    startSound();
+    startCountdown();
+    if (!myCall) document.getElementById('incoming').classList.add('show');
+
+  } else if (!alarm.active && ringing) {
+    // Alarma apagada
+    ringing = false;
+    myCall  = false;
+    setRingingUI(false, null);
+    stopSound();
+    stopCountdown();
+    document.getElementById('incoming').classList.remove('show');
+  }
+}
+
+function setRingingUI(active, who) {
+  const btn = document.getElementById('call-btn');
+  ['ring1','ring2'].forEach(id => document.getElementById(id).classList[active?'add':'remove']('go'));
+  btn.classList[active ? 'add' : 'remove']('ringing');
+  document.getElementById('btn-lbl').textContent = active ? 'Llamando...' : 'Llamar';
+  document.getElementById('btn-cancel').classList[active ? 'add' : 'remove']('show');
+  document.getElementById('status-dot').classList[active ? 'add' : 'remove']('active');
+  document.getElementById('status-text').innerHTML = active
+    ? 'Llamando — <span class="status-who">' + who + '</span>'
+    : 'Sin llamadas activas';
+  if (who) document.getElementById('incoming-who').textContent = who;
+}
+
+// ── COUNTDOWN ─────────────────────────────────────────────────
+function startCountdown() {
+  stopCountdown();
   updateCountdown();
-  clearInterval(countdownTimer);
-  countdownTimer = setInterval(() => {
+  countdownInt = setInterval(() => {
     secsLeft--;
     updateCountdown();
-    if (secsLeft <= 0) autoExpire();
+    if (secsLeft <= 0) autoCancel();
   }, 1000);
 }
-
+function stopCountdown() {
+  clearInterval(countdownInt);
+  document.getElementById('countdown').textContent = '';
+  document.getElementById('countdown').classList.remove('active');
+}
 function updateCountdown() {
   const el = document.getElementById('countdown');
   if (secsLeft > 0) {
     el.textContent = 'Se apaga en ' + secsLeft + 's';
     el.classList.add('active');
-  } else {
-    el.textContent = '';
-    el.classList.remove('active');
   }
 }
 
-function autoExpire() {
-  const alarm = getAlarm();
-  if (!alarm || !alarm.active) return;
-  const end = { ...alarm, active: false, endTs: Date.now(), cancelledBy: '(auto)' };
-  setAlarm(end);
-  pushHistory(end);
-  clearAlarmUI();
-  stopSound();
+// ── CALL ACTIONS ───────────────────────────────────────────────
+function toggleCall() { ringing ? cancelCall() : triggerCall(); }
+
+async function triggerCall() {
+  const btn = document.getElementById('call-btn');
+  btn.classList.add('disabled');
+  try {
+    const r = await gasPost({ action: 'trigger', user: currentUser });
+    if (!r.ok) { showToast(r.error || 'Error al llamar'); }
+  } catch(e) { showToast('Sin conexión'); }
+  btn.classList.remove('disabled');
 }
 
-function cancelCall() {
-  const alarm = getAlarm();
-  if (!alarm) return;
-  const end = { ...alarm, active: false, endTs: Date.now(), cancelledBy: currentUser };
-  setAlarm(end);
-  pushHistory(end);
-  clearAlarmUI();
-  stopSound();
-}
-
-function clearAlarmUI() {
-  ringing = false;
-  clearInterval(countdownTimer);
-  document.getElementById('call-btn').classList.remove('ringing');
-  document.getElementById('ring1').classList.remove('go');
-  document.getElementById('ring2').classList.remove('go');
-  document.getElementById('btn-lbl').textContent = 'Llamar';
-  document.getElementById('btn-cancel').classList.remove('show');
-  document.getElementById('status-dot').classList.remove('active');
-  document.getElementById('status-text').textContent = 'Sin llamadas activas';
-  document.getElementById('countdown').textContent = '';
-  document.getElementById('countdown').classList.remove('active');
+async function cancelCall() {
   document.getElementById('incoming').classList.remove('show');
+  try {
+    const r = await gasPost({ action: 'cancel', user: currentUser });
+    if (!r.ok) showToast(r.error || 'Error al cancelar');
+  } catch(e) { showToast('Sin conexión'); }
 }
 
-// ── POLLING ────────────────────────────────────────────────
-// En esta demo: polling sobre localStorage (mismo tab/device)
-// En versión real: GET al GAS Web App
-function startPolling() {
-  setInterval(poll, CONFIG.POLL_INTERVAL);
-  poll();
+async function autoCancel() {
+  stopCountdown();
+  await cancelCall();
 }
 
-function poll() {
-  const alarm = getAlarm();
-  if (!alarm) { if (ringing) clearAlarmUI(); return; }
-  if (alarm.active && !ringing) {
-    applyRinging(alarm);
-    startSound();
-  }
-  if (!alarm.active && ringing) {
-    clearAlarmUI();
-    stopSound();
-    renderHistory();
-  }
-}
-
-// ── HISTORIAL ─────────────────────────────────────────────
-function pushHistory(alarm) {
-  const dur = alarm.endTs ? Math.round((alarm.endTs - alarm.startTs) / 1000) : 0;
-  history.unshift({ who: alarm.who, ts: alarm.startTs, dur, cancelledBy: alarm.cancelledBy });
-  if (history.length > 30) history.pop();
-  saveHistory();
-  renderHistory();
-}
-
-function renderHistory() {
+// ── HISTORIAL ─────────────────────────────────────────────────
+function renderHistory(history) {
   const list = document.getElementById('hist-list');
-  if (!history.length) { list.innerHTML = '<div class="hist-empty">Aún no hay llamadas</div>'; return; }
+  if (!history || !history.length) {
+    list.innerHTML = '<div class="hist-empty">Aún no hay llamadas</div>';
+    return;
+  }
   list.innerHTML = history.map(h => {
-    const d    = new Date(h.ts);
-    const time = d.toLocaleDateString('es-AR', {day:'2-digit',month:'2-digit'}) + ' ' + d.toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'});
-    const auto = h.cancelledBy === '(auto)';
+    const d    = new Date(h.tsStart);
+    const time = d.toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit' })
+               + ' ' + d.toLocaleTimeString('es-AR', { hour:'2-digit', minute:'2-digit' });
+    const auto  = h.cancelledBy === '(auto)';
     const badge = auto
       ? '<span class="badge badge-auto">Auto 60s</span>'
       : '<span class="badge badge-ok">Cancelada</span>';
     const detail = auto
-      ? 'Nadie canceló · duró ' + h.dur + 's'
-      : 'Canceló ' + h.cancelledBy + ' · duró ' + h.dur + 's';
+      ? 'Nadie canceló · duró ' + h.durSec + 's'
+      : 'Canceló ' + h.cancelledBy + ' · duró ' + h.durSec + 's';
     return `<div class="hist-item">
       <div class="hist-row"><span class="hist-who">${h.who}</span><span class="hist-time">${time}</span></div>
       <div class="hist-row" style="margin-top:6px"><span class="hist-detail">${detail}</span>${badge}</div>
@@ -715,16 +579,11 @@ function renderHistory() {
   }).join('');
 }
 
-// ── INIT ───────────────────────────────────────────────────
-applyDark();
-if (currentUser && USERS[currentUser]) {
-  showLoggedIn();
-} else {
-  document.getElementById('screen-login').classList.add('active');
-}
-
-// Enter key en password
+// ── ENTER KEY ─────────────────────────────────────────────────
 document.getElementById('inp-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// ── ARRANCAR ──────────────────────────────────────────────────
+init();
 </script>
 </body>
 </html>
